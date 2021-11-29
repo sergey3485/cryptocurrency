@@ -65,7 +65,7 @@ const Home = () => {
         </a>
       </footer>
     </div>
-  )
+  );
 };
 
 export default Home;

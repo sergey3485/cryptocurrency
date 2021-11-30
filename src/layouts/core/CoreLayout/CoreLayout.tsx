@@ -7,7 +7,7 @@ import { CoreHeader } from '../CoreHeader';
 import * as S from './styled';
 
 export interface LayoutProps {
-  children: React.ReactNode,
+  children: React.ReactNode;
 }
 
 export const CoreLayout = (props: LayoutProps) => {

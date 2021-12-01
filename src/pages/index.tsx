@@ -1,6 +1,7 @@
 import Head from 'next/head';
 
 import { CoreLayout } from '@/layouts/core/CoreLayout';
+import { Stats } from '@/common/components/Stats';
 
 const Home = () => {
   return (
@@ -11,7 +12,7 @@ const Home = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <div>content</div>
+      <Stats rate1="0.50" rate2="-0.76" rate3="8.75" />
     </CoreLayout>
   );
 };

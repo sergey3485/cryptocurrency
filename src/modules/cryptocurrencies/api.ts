@@ -97,7 +97,12 @@ export type FetchFullCoinInformationResponse = CoinrankingResponse<{
 }>;
 
 export const fetchAllCoins = async (): Promise<Coin[] | undefined> => {
-  const fetchData = await fetch(`${baseUrl}/coins`);
+  const fetchData = await fetch(`${baseUrl}/coins`, {
+    headers: {
+      'x-access-token': process.env.COINRANKING_API_KEY as string,
+    },
+  });
+
   const data = await fetchData.json() as FetchAllCoinsResponse;
 
   if (data.status === 'success') {
@@ -108,7 +113,12 @@ export const fetchAllCoins = async (): Promise<Coin[] | undefined> => {
 };
 
 export const fetchStats = async (): Promise<Stats | undefined> => {
-  const fetchData = await fetch(`${baseUrl}/stats`);
+  const fetchData = await fetch(`${baseUrl}/stats`, {
+    headers: {
+      'x-access-token': process.env.COINRANKING_API_KEY as string,
+    },
+  });
+
   const data = await fetchData.json() as FetchStatsResponse;
 
   if (data.status === 'success') {
@@ -119,7 +129,11 @@ export const fetchStats = async (): Promise<Stats | undefined> => {
 };
 
 export const fetchExchanges = async (): Promise<Exchange[] | undefined> => {
-  const fetchData = await fetch(`${baseUrl}/exchanges`);
+  const fetchData = await fetch(`${baseUrl}/exchanges`, {
+    headers: {
+      'x-access-token': process.env.COINRANKING_API_KEY as string,
+    },
+  });
   const data = await fetchData.json() as FetchExchangesResponse;
 
   if (data.status === 'success') {
@@ -130,7 +144,12 @@ export const fetchExchanges = async (): Promise<Exchange[] | undefined> => {
 };
 
 export const fetchCoin = async (uuid: string): Promise<FullCoinInformation | undefined> => {
-  const fetchData = await fetch(`${baseUrl}/coin/${uuid}`);
+  const fetchData = await fetch(`${baseUrl}/coin/${uuid}`, {
+    headers: {
+      'x-access-token': process.env.COINRANKING_API_KEY as string,
+    },
+  });
+
   const data = await fetchData.json() as FetchFullCoinInformationResponse;
 
   if (data.status === 'success') {

@@ -51,7 +51,7 @@ export const Coin = (props: CoinProps) => {
               <RiArrowDownSFill size={24} />
             )}
 
-            <S.Change>{Math.abs(Number(change))}%</S.Change>
+            <S.Change state={isChangePositive}>{Math.abs(Number(change))}%</S.Change>
           </S.ValueContainer>
         </S.ValueWrapper>
       </S.ContentWrapper>

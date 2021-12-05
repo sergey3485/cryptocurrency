@@ -20,10 +20,10 @@ export const Rank = styled.sup({
   fontSize: 14,
 });
 
-export const Change = styled.span({
-  color: colors.green.green11,
+export const Change = styled.span<{ state: boolean }>((props) => ({
+  color: props.state ? colors.green.green11 : colors.red.red11,
   fontSize: 14,
-});
+}));
 
 export const Value = styled.span({
   fontSize: 48,

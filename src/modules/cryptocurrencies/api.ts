@@ -44,6 +44,42 @@ export interface Stats {
   total24hVolume: string;
 }
 
+export interface FullCoinInformation {
+  uuid: string;
+  symbol: string;
+  name: string;
+  description: string;
+  color: string;
+  iconUrl: string;
+  websiteUrl: string;
+  links: [
+    {
+      name: string;
+      url: string;
+      type: string;
+    },
+  ];
+  supply: {
+    confirmed: boolean;
+    circulating: string;
+    total: string;
+  },
+  '24hVolume': string;
+  marketCap: string;
+  price: string;
+  btcPrice: string;
+  change: string;
+  rank: number;
+  numberOfMarkets: number;
+  numberOfExchanges: number;
+  sparkline: string[],
+  allTimeHigh: {
+    price: string;
+    timestamp: number;
+  },
+  coinrankingUrl: string;
+}
+
 export type FetchStatsResponse = CoinrankingResponse<{
   stats: Stats;
 }>;
@@ -54,6 +90,10 @@ export type FetchAllCoinsResponse = CoinrankingResponse<{
 
 export type FetchExchangesResponse = CoinrankingResponse<{
   exchanges: Exchange[];
+}>;
+
+export type FetchFullCoinInformationResponse = CoinrankingResponse<{
+  coin: FullCoinInformation;
 }>;
 
 export const fetchAllCoins = async (): Promise<Coin[] | undefined> => {
@@ -84,6 +124,17 @@ export const fetchExchanges = async (): Promise<Exchange[] | undefined> => {
 
   if (data.status === 'success') {
     return data.data.exchanges;
+  }
+
+  throw new Error(data.message);
+};
+
+export const fetchCoin = async (uuid: string): Promise<FullCoinInformation | undefined> => {
+  const fetchData = await fetch(`${baseUrl}/coin/${uuid}`);
+  const data = await fetchData.json() as FetchFullCoinInformationResponse;
+
+  if (data.status === 'success') {
+    return data.data.coin;
   }
 
   throw new Error(data.message);

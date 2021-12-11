@@ -11,9 +11,10 @@ import { Coin } from '@/components/Coin';
 import { CoinStats } from '@/components/CoinStats';
 import * as Breadcrumbs from '@/components/system/Breadcrumbs';
 
-import { FullCoinInformation, fetchCoin } from '@/modules/cryptocurrencies/api';
+import { REACT_QUERY_STATE_PROP_NAME, ReactQueryState } from '@/modules/rquery/react-query';
+import { FullCoinInformation, fetchCoin } from '@/modules/cryptocurrencies/api/coins.service';
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
+export const getServerSideProps: GetServerSideProps<ReactQueryState> = async (context) => {
   const { coinId } = context.query;
 
   const queryClient = new QueryClient();
@@ -22,7 +23,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
   return {
     props: {
-      dehydratedState: dehydrate(queryClient),
+      [REACT_QUERY_STATE_PROP_NAME]: dehydrate(queryClient),
     },
   };
 };

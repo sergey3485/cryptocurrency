@@ -5,9 +5,9 @@ import {
   RiArrowUpSFill,
 } from 'react-icons/ri';
 
-import * as S from './styled';
+import { isPositive } from '@/utils/isPositive';
 
-const getCoinChangeState = (value: string) => Number(value) > 0;
+import * as S from './styled';
 
 export interface CoinProps {
   coin: string;
@@ -26,7 +26,7 @@ export const Coin = (props: CoinProps) => {
     iconUrl,
   } = props;
 
-  const isChangePositive = getCoinChangeState(change);
+  const isChangePositive = isPositive(change);
 
   return (
     <S.CoinRoot>

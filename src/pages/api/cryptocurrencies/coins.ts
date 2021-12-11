@@ -1,12 +1,17 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-import { NextApiHandler, NextApiResponse } from 'next';
+import { NextApiHandler, NextApiResponse, NextApiRequest } from 'next';
 
-import { fetchAllCoins, Coin } from '@/modules/cryptocurrencies/api';
+import { fetchAllCoins, FetchAllCoinsResponse } from '@/modules/cryptocurrencies/api/coins.service';
 
-const handler: NextApiHandler = async (req, res: NextApiResponse<Coin[] | undefined>) => {
-  const coins = await fetchAllCoins();
+const handler: NextApiHandler = async (req: NextApiRequest, res: NextApiResponse<FetchAllCoinsResponse['data'] | undefined>) => {
+  const {
+    offset,
+    limit,
+  } = req.query;
 
-  res.status(200).json(coins);
+  const data = await fetchAllCoins(Number(offset), Number(limit));
+
+  res.status(200).json(data);
 };
 
 export default handler;

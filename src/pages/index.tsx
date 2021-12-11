@@ -1,30 +1,35 @@
 import * as React from 'react';
 import { GetServerSideProps } from 'next';
 import Head from 'next/head';
-import Link from 'next/link';
 import { useQuery, QueryClient, dehydrate } from 'react-query';
 
 import { CoreLayout } from '@/layouts/core/CoreLayout';
+import { CoinsTable } from '@/components/CoinsTable';
 
-import { Coin, fetchAllCoins } from '../modules/cryptocurrencies/api';
+import { REACT_QUERY_STATE_PROP_NAME, ReactQueryState } from '@/modules/rquery/react-query';
+import { FetchAllCoinsResponse, fetchAllCoins } from '@/modules/cryptocurrencies/api/coins.service';
 
-export const getServerSideProps: GetServerSideProps = async () => {
+export const getServerSideProps: GetServerSideProps<ReactQueryState> = async () => {
   const queryClient = new QueryClient();
-  await queryClient.prefetchQuery('coins', () => fetchAllCoins());
+  await queryClient.prefetchQuery('coins', () => fetchAllCoins(0, 10));
 
   return {
     props: {
-      dehydrateState: dehydrate(queryClient),
+      [REACT_QUERY_STATE_PROP_NAME]: dehydrate(queryClient),
     },
   };
 };
 
 const Home = () => {
-  const query = useQuery('coins', async () => {
-    const data = await fetch('http://localhost:3000/api/cryptocurrencies/coins');
-    const coins = await data.json() as Coin[];
+  const [page, setPage] = React.useState(0);
+
+  const query = useQuery(['coins', page], async () => {
+    const data = await fetch(`http://localhost:3000/api/cryptocurrencies/coins?limit=10&offset=${page * 10}`);
+    const coins = await data.json() as FetchAllCoinsResponse['data'];
 
     return coins;
+  }, {
+    keepPreviousData: true,
   });
 
   return (
@@ -35,11 +40,22 @@ const Home = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      {query.data?.map((data) => (
-        <Link href={`/cryptocurrencies/coins/${data.uuid}`} passHref key={data.uuid}>
-          <a>{data.name}</a>
-        </Link>
-      ))}
+      <CoinsTable coins={query.data?.coins} />
+      <div>
+        <button
+          type="button"
+          onClick={() => setPage((prevPage) => prevPage - 1)}
+          disabled={page === 0}
+        >
+          prev
+        </button>
+        <button
+          type="button"
+          onClick={() => setPage((prevPage) => prevPage + 1)}
+        >
+          next
+        </button>
+      </div>
     </CoreLayout>
   );
 };

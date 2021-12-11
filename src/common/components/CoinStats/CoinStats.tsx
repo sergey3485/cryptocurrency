@@ -5,6 +5,8 @@ import {
   RiArrowUpSFill,
 } from 'react-icons/ri';
 
+import { isPositive } from '@/utils/isPositive';
+
 import * as S from './styled';
 
 export interface CoinStatsProps {
@@ -40,11 +42,9 @@ const Arrow = (props: ArrowProps) => {
   );
 };
 
-const getCoinChangeState = (value: string) => Number(value) > 0;
-
 const StatsItem = (props: StatsItemProps) => {
   const { option, value, percent } = props;
-  const isValuePositive = getCoinChangeState(value as string);
+  const isValuePositive = isPositive(value as string);
 
   return (
     <S.CoinStatsItem state={isValuePositive}>
@@ -73,7 +73,7 @@ const LastStatsItem = (props: LastStatsItemProps) => {
     change,
     percent,
   } = props;
-  const isValuePositive = getCoinChangeState(change);
+  const isValuePositive = isPositive(change);
 
   return (
     <S.CoinStatsItem state={isValuePositive} last>

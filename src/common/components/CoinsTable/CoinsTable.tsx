@@ -20,19 +20,19 @@ export const CoinsTable = (props: CoinsTableProps) => {
     <S.CoinTableRoot>
       <S.TableHeader>
         <S.TableRow>
-          <S.TableHead>
+          <S.TableHead width="37.5%" align="left">
             Cryptocurrency
           </S.TableHead>
 
-          <S.TableHead>
+          <S.TableHead width="25%" align="left">
             Price
           </S.TableHead>
 
-          <S.TableHead>
+          <S.TableHead width="25%" align="left">
             Market Cap
           </S.TableHead>
 
-          <S.TableHead>
+          <S.TableHead width="12.5%" align="right">
             24 H
           </S.TableHead>
         </S.TableRow>
@@ -47,10 +47,10 @@ export const CoinsTable = (props: CoinsTableProps) => {
             <S.TableRow
               role="link"
               tabIndex={0}
-              key={data.rank}
+              key={data.uuid}
               onClick={() => router.push(`/cryptocurrencies/coins/${data.uuid}`)}
             >
-              <S.TableCell>
+              <S.TableCell width="37.5%">
                 <S.CryptocurrencyWrapper>
                   <S.Rank>
                     {data.rank}
@@ -72,15 +72,15 @@ export const CoinsTable = (props: CoinsTableProps) => {
                 </S.CryptocurrencyWrapper>
               </S.TableCell>
 
-              <S.TableCell>
+              <S.TableCell width="25%">
                 $ {Number(data.price).toFixed(2)}
               </S.TableCell>
 
-              <S.TableCell>
+              <S.TableCell width="25%">
                 {marketCap}
               </S.TableCell>
 
-              <S.TableCell>
+              <S.TableCell width="12.5%" align="right">
                 <S.Change isPositive={isChangePositive}>
                   {isChangePositive && '+'}
                   {data.change}

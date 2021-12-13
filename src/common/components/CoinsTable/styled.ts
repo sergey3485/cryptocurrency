@@ -1,3 +1,4 @@
+import * as React from 'react';
 import styled from 'styled-components';
 
 import * as colors from '@radix-ui/colors';
@@ -6,6 +7,7 @@ export const CoinTableRoot = styled.table({
   width: '100%',
   borderCollapse: 'collapse',
   borderBottom: '1px solid black',
+  position: 'relative',
 });
 
 export const CryptocurrencyWrapper = styled.div({
@@ -51,19 +53,27 @@ export const Rank = styled.span({
 export const TableHeader = styled.thead({
   '& th': {
     padding: '16px 0',
-    textAlign: 'left',
   },
 });
 
-export const TableHead = styled.th({
-  fontSize: 14,
-});
+interface TableCellProps {
+  align?: React.CSSProperties['textAlign'];
+  width?: React.CSSProperties['width'];
+}
 
-export const TableCell = styled.td({
+export const TableHead = styled.th<TableCellProps>((props) => ({
+  fontSize: 14,
+  textAlign: props.align,
+  width: props.width ?? '25%',
+}));
+
+export const TableCell = styled.td<TableCellProps>((props) => ({
   fontSize: 14,
   fontWeight: 500,
   color: 'black',
-});
+  textAlign: props.align,
+  width: props.width ?? '25%',
+}));
 
 export const TableRow = styled.tr({
   borderBottom: '1px solid',

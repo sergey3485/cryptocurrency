@@ -1,17 +1,25 @@
 import * as React from 'react';
 import { GetServerSideProps } from 'next';
 import Head from 'next/head';
-import { useQuery, QueryClient, dehydrate } from 'react-query';
+import {
+  useQuery,
+  useQueryClient,
+  QueryClient,
+  dehydrate,
+} from 'react-query';
 
 import { CoreLayout } from '@/layouts/core/CoreLayout';
 import { CoinsTable } from '@/components/CoinsTable';
+import { Pagination } from '@/components/Pagination';
 
 import { REACT_QUERY_STATE_PROP_NAME, ReactQueryState } from '@/modules/rquery/react-query';
 import { FetchAllCoinsResponse, fetchAllCoins } from '@/modules/cryptocurrencies/api/coins.service';
 
+const COINS_PER_PAGE = 20;
+
 export const getServerSideProps: GetServerSideProps<ReactQueryState> = async () => {
   const queryClient = new QueryClient();
-  await queryClient.prefetchQuery('coins', () => fetchAllCoins(0, 10));
+  await queryClient.prefetchQuery('coins', () => fetchAllCoins(0, COINS_PER_PAGE));
 
   return {
     props: {
@@ -21,16 +29,26 @@ export const getServerSideProps: GetServerSideProps<ReactQueryState> = async () 
 };
 
 const Home = () => {
-  const [page, setPage] = React.useState(0);
+  const [page, setPage] = React.useState(1);
 
+  const queryClient = useQueryClient();
   const query = useQuery(['coins', page], async () => {
-    const data = await fetch(`http://localhost:3000/api/cryptocurrencies/coins?limit=10&offset=${page * 10}`);
+    const data = await fetch(`http://localhost:3000/api/cryptocurrencies/coins?limit=${COINS_PER_PAGE}&offset=${(page - 1) * COINS_PER_PAGE}`);
     const coins = await data.json() as FetchAllCoinsResponse['data'];
 
     return coins;
   }, {
     keepPreviousData: true,
   });
+
+  React.useEffect(() => {
+    queryClient.prefetchQuery(['coins', page + 1], async () => {
+      const data = await fetch(`http://localhost:3000/api/cryptocurrencies/coins?limit=${COINS_PER_PAGE}&offset=${(page) * COINS_PER_PAGE}`);
+      const coins = await data.json() as FetchAllCoinsResponse['data'];
+
+      return coins;
+    }) as unknown as void;
+  }, [page]);
 
   return (
     <CoreLayout>
@@ -41,21 +59,13 @@ const Home = () => {
       </Head>
 
       <CoinsTable coins={query.data?.coins} />
-      <div>
-        <button
-          type="button"
-          onClick={() => setPage((prevPage) => prevPage - 1)}
-          disabled={page === 0}
-        >
-          prev
-        </button>
-        <button
-          type="button"
-          onClick={() => setPage((prevPage) => prevPage + 1)}
-        >
-          next
-        </button>
-      </div>
+
+      <Pagination
+        currentPage={page}
+        onChange={setPage}
+        totalItems={query.data?.stats.totalCoins || 0}
+        itemsPerPage={COINS_PER_PAGE}
+      />
     </CoreLayout>
   );
 };

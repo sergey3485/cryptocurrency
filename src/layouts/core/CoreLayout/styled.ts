@@ -4,7 +4,7 @@ import * as colors from '@radix-ui/colors';
 export const CoreLayoutRoot = styled.div({
   display: 'flex',
   flexDirection: 'column',
-  backgroundColor: colors.blue.blue1,
+  backgroundColor: colors.slate.slate2,
   height: '100vh',
 });
 

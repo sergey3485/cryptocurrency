@@ -76,7 +76,7 @@ const LastStatsItem = (props: LastStatsItemProps) => {
   const isValuePositive = isPositive(change);
 
   return (
-    <S.CoinStatsItem state={isValuePositive} last>
+    <S.CoinStatsItem state={isValuePositive}>
       <S.CoinStatsKey>{option}</S.CoinStatsKey>
 
       <S.ValueContainer>

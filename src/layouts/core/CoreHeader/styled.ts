@@ -14,6 +14,7 @@ export const CoreHeaderRoot = styled.div({
 
 export const Logo = styled.h1({
   fontSize: 24,
+  cursor: 'pointer',
 });
 
 export const Navigation = styled.div({

@@ -9,7 +9,7 @@ import { isPositive } from '@/utils/isPositive';
 
 import * as S from './styled';
 
-export interface CoinProps {
+export interface CoinInfoProps {
   coin: string;
   rank: number;
   value: string;
@@ -17,7 +17,7 @@ export interface CoinProps {
   iconUrl: string;
 }
 
-export const Coin = (props: CoinProps) => {
+export const CoinInfo = (props: CoinInfoProps) => {
   const {
     coin,
     rank,

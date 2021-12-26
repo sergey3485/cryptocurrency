@@ -7,9 +7,10 @@ import { useQuery, QueryClient, dehydrate } from 'react-query';
 
 import { CoreLayout } from '@/layouts/core/CoreLayout';
 import { Stats } from '@/components/Stats';
-import { Coin } from '@/components/Coin';
+import { CoinInfo } from '@/components/CoinInfo';
 import { CoinStats } from '@/components/CoinStats';
 import * as Breadcrumbs from '@/components/system/Breadcrumbs';
+import { Box } from '@/components/system/Box';
 
 import { REACT_QUERY_STATE_PROP_NAME, ReactQueryState } from '@/modules/rquery/react-query';
 import { FullCoinInformation, fetchCoin } from '@/modules/cryptocurrencies/api/coins.service';
@@ -90,27 +91,46 @@ const CoinPage: NextPage = () => {
         <Breadcrumbs.Item>{query.data?.name}</Breadcrumbs.Item>
       </Breadcrumbs.Root>
 
-      <Coin
-        coin={query.data?.name ?? ''}
-        value={Number(query.data?.price).toFixed(2) ?? ''}
-        rank={query.data?.rank ?? 0}
-        change={Number(query.data?.change).toFixed(2) ?? ''}
-        iconUrl={query.data?.iconUrl ?? ''}
-      />
+      <Box
+        sx={{
+          my: 4,
+          display: 'flex',
+          justifyContent: 'space-between',
+        }}
+      >
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'space-between',
+            flex: 1,
+            mr: 3,
+          }}
+        >
+          <CoinInfo
+            coin={query.data?.name ?? ''}
+            value={Number(query.data?.price).toFixed(2) ?? ''}
+            rank={query.data?.rank ?? 0}
+            change={Number(query.data?.change).toFixed(2) ?? ''}
+            iconUrl={query.data?.iconUrl ?? ''}
+          />
 
-      <Stats rate1="0.50" rate2="-0.76" rate3="8.75" />
+          <Stats rate1="0.50" rate2="-0.76" rate3="8.75" />
+        </Box>
 
-      <CoinStats
-        coinUrl={query.data?.iconUrl ?? ''}
-        coin={query.data?.symbol ?? ''}
-        price={Number(query.data?.price).toFixed(2) ?? ''}
-        priceChange={Number(query.data?.change).toFixed(2) ?? ''}
-        rank={query.data?.rank ?? 0}
-        low={min24(query.data?.sparkline) ?? ''}
-        high={max24(query.data?.sparkline) ?? ''}
-        volume={Number(query.data?.['24hVolume']).toFixed(2) ?? ''}
-        marketCap={Number(query.data?.marketCap).toFixed(2) ?? ''}
-      />
+        <CoinStats
+          coinUrl={query.data?.iconUrl ?? ''}
+          coin={query.data?.symbol ?? ''}
+          price={Number(query.data?.price).toFixed(2) ?? ''}
+          priceChange={Number(query.data?.change).toFixed(2) ?? ''}
+          rank={query.data?.rank ?? 0}
+          low={min24(query.data?.sparkline) ?? ''}
+          high={max24(query.data?.sparkline) ?? ''}
+          volume={Number(query.data?.['24hVolume']).toFixed(2) ?? ''}
+          marketCap={Number(query.data?.marketCap).toFixed(2) ?? ''}
+        />
+      </Box>
+
     </CoreLayout>
   );
 };

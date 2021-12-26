@@ -9,13 +9,13 @@ export interface BreadcrumbsItemProps {
   children: React.ReactNode;
 }
 
-export const BreadcrumbsItem = (props: BreadcrumbsItemProps) => {
+export const BreadcrumbsItem = React.forwardRef<HTMLLIElement, BreadcrumbsItemProps>((props, ref) => {
   const { children } = props;
 
   return (
-    <S.BreadcrumbsItemRoot>{children}</S.BreadcrumbsItemRoot>
+    <S.BreadcrumbsItemRoot ref={ref}>{children}</S.BreadcrumbsItemRoot>
   );
-};
+});
 
 export interface BreadcrumbsLinkProps extends React.AnchorHTMLAttributes<HTMLAnchorElement> {
   /**
@@ -24,15 +24,15 @@ export interface BreadcrumbsLinkProps extends React.AnchorHTMLAttributes<HTMLAnc
   children: React.ReactNode;
 }
 
-export const BreadcrumbsLink = (props: BreadcrumbsLinkProps) => {
+export const BreadcrumbsLink = React.forwardRef<HTMLAnchorElement, BreadcrumbsLinkProps>((props, ref) => {
   const { children, ...other } = props;
 
   return (
-    <S.BreadcrumbsLinkRoot {...other}>
+    <S.BreadcrumbsLinkRoot {...other} ref={ref}>
       {children}
     </S.BreadcrumbsLinkRoot>
   );
-};
+});
 
 export interface BreadcrumbsSeparatorProps {
   /**
@@ -41,15 +41,15 @@ export interface BreadcrumbsSeparatorProps {
   children: React.ReactNode;
 }
 
-export const BreadcrumbsSeparator = (props: BreadcrumbsSeparatorProps) => {
+export const BreadcrumbsSeparator = React.forwardRef<HTMLLIElement, BreadcrumbsSeparatorProps>((props, ref) => {
   const { children } = props;
 
   return (
-    <S.BreadcrumbsSeparatorRoot aria-hidden>
+    <S.BreadcrumbsSeparatorRoot aria-hidden ref={ref}>
       {children}
     </S.BreadcrumbsSeparatorRoot>
   );
-};
+});
 
 export interface BreadcrumbsProps {
   /**
@@ -58,19 +58,19 @@ export interface BreadcrumbsProps {
   children: React.ReactNode;
 }
 
-export const Breadcrumbs = (props: BreadcrumbsProps): JSX.Element => {
+export const Breadcrumbs = React.forwardRef<HTMLDivElement, BreadcrumbsProps>((props, ref): JSX.Element => {
   const {
     children,
   } = props;
 
   return (
-    <S.BreadcrumbsRoot>
+    <S.BreadcrumbsRoot ref={ref}>
       <S.BreadcrumbsList>
         {children}
       </S.BreadcrumbsList>
     </S.BreadcrumbsRoot>
   );
-};
+});
 
 export {
   Breadcrumbs as Root,

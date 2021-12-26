@@ -37,9 +37,7 @@ export const Coin = styled.span({
   fontWeight: 500,
 });
 
-export const CoinRoot = styled.div({
-  marginBottom: 32,
-});
+export const CoinRoot = styled.div({});
 
 export const ValueWrapper = styled.div({
   display: 'flex',
@@ -51,7 +49,6 @@ export const ValueWrapper = styled.div({
 
 export const ContentWrapper = styled.div({
   display: 'flex',
-  marginTop: 24,
 });
 
 export const ValueContainer = styled.div({

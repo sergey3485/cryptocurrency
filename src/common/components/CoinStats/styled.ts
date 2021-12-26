@@ -3,20 +3,28 @@ import * as colors from '@radix-ui/colors';
 
 export const CoinStatsRoot = styled.div({
   backgroundColor: 'white',
-  marginTop: 16,
-  flex: 1,
+  boxShadow: `
+    0px 2px 1px -1px rgba(0,0,0,0.2),
+    0px 1px 1px 0px rgba(0,0,0,0.14),
+    0px 1px 3px 0px rgba(0,0,0,0.12)
+  `,
 });
 
-export const CoinStatsItem = styled.li<{ state: boolean, last?: boolean }>((props) => ({
+export const CoinStatsItem = styled.li<{ state: boolean }>((props) => ({
   display: 'flex',
   color: props.state ? colors.green.green11 : colors.red.red11,
   justifyContent: 'space-between',
-  flexDirection: props.last ? 'column' : 'row',
+  flexDirection: 'row',
   marginTop: 4,
   marginBottom: 4,
   paddingBottom: 8,
-  borderBottom: props.last ? 'none' : '1px solid',
+  borderBottom: '1px solid',
   borderColor: colors.gray.gray2,
+
+  '&:last-child': {
+    flexDirection: 'column',
+    borderBottom: 'none',
+  },
 }));
 
 export const CoinStatsWrapper = styled.div({

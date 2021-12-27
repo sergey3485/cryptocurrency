@@ -115,7 +115,12 @@ const CoinPage: NextPage = () => {
             iconUrl={query.data?.iconUrl ?? ''}
           />
 
-          <Stats rate1="0.50" rate2="-0.76" rate3="8.75" />
+          <Stats
+            marketCap={query.data?.marketCap ?? ''}
+            numberOfExchanges={query.data?.numberOfExchanges ?? 0}
+            numberOfMarkets={query.data?.numberOfMarkets ?? 0}
+            supply={query.data?.supply.circulating ?? ''}
+          />
         </Box>
 
         <CoinStats

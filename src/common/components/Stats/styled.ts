@@ -41,12 +41,12 @@ export const StatsWrapper = styled.div({
   display: 'flex',
 });
 
-export const ValueContainer = styled.div<{ reverse: boolean }>((props) => ({
+export const ValueContainer = styled.div({
   display: 'flex',
   alignItems: 'center',
   fontWeight: 500,
-  flexDirection: props.reverse ? 'row-reverse' : 'row',
-}));
+  flexDirection: 'row',
+});
 
 export const Value = styled.span({
   fontSize: 24,

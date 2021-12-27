@@ -1,23 +1,22 @@
 import * as React from 'react';
 import {
   RiInformationFill,
-  RiArrowDownSFill,
-  RiArrowUpSFill,
 } from 'react-icons/ri';
 
-import { isPositive } from '@/utils/isPositive';
+import { convertNumberToShortAbbreviation } from '@/utils/convertNumberToShortAbbreviation';
 
 import * as S from './styled';
 
 export interface StatsProps {
-  rate1: string;
-  rate2: string;
-  rate3: string;
+  marketCap: string;
+  numberOfMarkets: number;
+  numberOfExchanges: number;
+  supply: string;
 }
 
 export interface StatsItemProps {
   title: string;
-  value: number;
+  value: number | string;
   change?: string;
   currencyName?: string;
 }
@@ -26,11 +25,7 @@ export const StatsItem = (props: StatsItemProps): JSX.Element => {
   const {
     title,
     value,
-    change,
-    currencyName,
   } = props;
-
-  const isChangePositive = isPositive(change ?? '0');
 
   return (
     <S.StatsItem>
@@ -40,53 +35,44 @@ export const StatsItem = (props: StatsItemProps): JSX.Element => {
         <RiInformationFill size={16} color="grey" />
       </S.StatsHeader>
 
-      <S.ValueContainer reverse={!!currencyName}>
-        <S.CurrencyMark>{currencyName ?? '$'}</S.CurrencyMark>
+      <S.ValueContainer>
+        <S.CurrencyMark>$</S.CurrencyMark>
 
         <S.Value>{value}</S.Value>
       </S.ValueContainer>
-
-      {change && (
-      <S.QuotationRateContainer state={isChangePositive}>
-        {isChangePositive ? (
-          <RiArrowUpSFill size={24} />
-        ) : (
-          <RiArrowDownSFill size={24} />
-        )}
-
-        <S.QuotationRate>{Math.abs(Number(change))}%</S.QuotationRate>
-      </S.QuotationRateContainer>
-      )}
     </S.StatsItem>
   );
 };
 
 export const Stats = (props: StatsProps) => {
+  const {
+    numberOfExchanges,
+    numberOfMarkets,
+    supply,
+    marketCap,
+  } = props;
+
   return (
     <S.StatsRoot>
       <S.StatsWrapper>
         <StatsItem
           title="Market cap"
-          value={275589894}
-          change="-0.15"
+          value={convertNumberToShortAbbreviation(marketCap)}
         />
 
         <StatsItem
-          title="Fully Deluted"
-          value={275589894}
-          change="-0.25"
+          title="number of Markets"
+          value={numberOfMarkets}
         />
 
         <StatsItem
-          title="Volume"
-          value={275589894}
-          change="0.25"
+          title="number of Exchanges"
+          value={numberOfExchanges}
         />
 
         <StatsItem
           title="Circulating supply"
-          value={275589894}
-          currencyName="ETH"
+          value={convertNumberToShortAbbreviation(supply)}
         />
       </S.StatsWrapper>
     </S.StatsRoot>

@@ -6,6 +6,7 @@ import {
 } from 'react-icons/ri';
 
 import { isPositive } from '@/utils/isPositive';
+import { convertNumberToShortAbbreviation } from '@/utils/convertNumberToShortAbbreviation';
 
 import * as S from './styled';
 
@@ -120,11 +121,11 @@ export const CoinStats = (props: CoinStatsProps) => {
 
           <StatsItem option="24 Low" value={low} />
 
-          <StatsItem option="Volume" value={volume} />
+          <StatsItem option="Volume" value={convertNumberToShortAbbreviation(volume)} />
 
           <StatsItem option="Rank" value={`#${rank}`} />
 
-          <LastStatsItem option="Marketing cap" value={`$ ${marketCap}`} change="-0.50" percent />
+          <LastStatsItem option="Marketing cap" value={`$ ${convertNumberToShortAbbreviation(marketCap)}`} change="-0.50" percent />
         </S.CoinStatsList>
       </S.CoinStatsWrapper>
     </S.CoinStatsRoot>
